@@ -19,30 +19,58 @@
   const clearAllBtn = document.getElementById('clearall');
   const showCounting = document.querySelector('h4>span');
   const operators = ['+', '-', '*', '/'];
+  let flag = false;
 
   const addASign = function () {
+    if (flag) {
+      resultField.textContent = "";
+      flag = false;
+    }
     resultField.textContent += this.textContent;
   }
 
 
   const handleMinusing = function (finalArr) {
+    if (finalArr.includes('-')) {
+      console.log('mamy odejmowanie');
+      let actionPoint = finalArr.indexOf('-');
+      let result = finalArr[actionPoint - 1] - finalArr[actionPoint + 1];
+      finalArr.splice(actionPoint - 1, 3, result);
+    }
     console.log('ostatecznie: ' + finalArr);
+    resultField.textContent = finalArr;
+    flag = true;
   }
 
   const handleAdding = function (finalArr) {
+    if (finalArr.includes('+')) {
+      console.log('mamy dodawanie');
+      let actionPoint = finalArr.indexOf('+');
+      let result = parseFloat(finalArr[actionPoint - 1]) + parseFloat(finalArr[actionPoint + 1]);
+      finalArr.splice(actionPoint - 1, 3, result);
+    }
     handleMinusing(finalArr);
   }
 
   const handleDivision = function (finalArr) {
+    while (finalArr.includes('/')) {
+      console.log('mamy dzielenie');
+      let actionPoint = finalArr.indexOf('/');
+      if (finalArr[actionPoint + 1] == 0) return console.log('dzielenie przez zero jest nielegalne');
+      let result = finalArr[actionPoint - 1] / finalArr[actionPoint + 1];
+      finalArr.splice(actionPoint - 1, 3, result);
+    }
     handleAdding(finalArr);
   }
 
   const handleMultiplication = function (finalArr) {
+    while (finalArr.includes('*')) {
+      console.log('mamy mnożenie');
+      let actionPoint = finalArr.indexOf('*');
+      let result = finalArr[actionPoint - 1] * finalArr[actionPoint + 1];
+      finalArr.splice(actionPoint - 1, 3, result);
+    }
     handleDivision(finalArr);
-  }
-
-  const handleMinuses = function (finalArr) {
-    handleMultiplication(finalArr);
   }
 
   const makeANumbers = function (finalArr) {
@@ -50,16 +78,13 @@
     if (operators.includes(test)) {
       for (let i = 1; i < finalArr.length; i += 2) {
         finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2);
-        console.log('co mamy: ' + finalArr[i - 1]);
         finalArr[i] = parseFloat(finalArr[i]);
         if ((finalArr[i - 1])[1] === '-') {
           finalArr[i] = -(finalArr[i]);
           finalArr[i - 1] = finalArr[i - 1].slice(-1);
-          console.log('co mamy2: ' + finalArr[i - 1]);
         }
         console.log('operator first: ' + i, operators);
         finalArr[i - 1] = finalArr[i - 1].slice(-1);
-        // finalArr.shift();
       }
     } else {
       for (let i = 0; i < finalArr.length - 1; i += 2) {
@@ -69,13 +94,12 @@
           finalArr[i + 2] = -(finalArr[i + 2]);
           finalArr[i + 1] = finalArr[i + 1].slice(-1);
         }
-        console.log('else: ' + i, operators, finalArr[0]);
         finalArr[i + 1] = finalArr[i + 1].slice(-1);
       }
     }
     let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
-    showCounting.textContent = txtToShowInH4;
-    handleMinuses(finalArr);
+    showCounting.textContent = txtToShowInH4; // prezentacja działania
+    handleMultiplication(finalArr);
   }
 
   const makeACount = function (toCountArray) {
@@ -88,10 +112,6 @@
       nextEl = nextEl.replace(/,/g, '');
       finalArr.push(nextEl);
     }
-    // else {
-    //   console.log('koniec')
-    // }
-    //.replace(/,/g, '')
 
     makeANumbers(finalArr);
   }
@@ -102,69 +122,23 @@
     let numbers = [];
     let toCount = resultField.textContent;
     if (toCount) {
-      // console.log(toCount, typeof toCount);
       resultField.textContent = "";
       let toCountArray = [...toCount];
 
-      // for (let i = 0; i < toCountArray.length; i++) {
-      //   if (toCountArray[i] === "*" || toCountArray[i] === "/" || toCountArray[i] === "+" || toCountArray[i] === "-") {
-      //     operators.push(toCountArray[i]);
-      //   } else {
-      //     numbers.push(toCountArray[i]);
-      //   }
-      // }
-      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}`);
-      // return toCountArray;
-
-      // toCountArray.forEach(function (sign) {
-      //   if (sign === "*" || sign === "/" || sign === "+" || sign === "-") {
-      //     operators.push(sign);
-      //     numbers.push('');
-      //   } else {
-      //     numbers.push(sign);
-      //     operators.push('');
-      //   }
-      // });
-      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}; ${typeof toCountArray[1]}`);
-
-      // for (let i = 0; i < toCountArray.length; i++) {
-      //   if ((toCountArray[i + 1] != "*" || toCountArray[i + 1] != "/" || toCountArray[i + 1] != "+" || toCountArray[i + 1] != "-") && (toCountArray[i] === "*" || toCountArray[i] === "/" || toCountArray[i] === "+" || toCountArray[i + 1] === "-")) {
-      //     // operators.push(toCountArray[i]);
-      //     console.log('mamy zmiane');
-      //     toCountArray.splice(i + 1, 0, 'x');
-      //     i++;
-      //   } else if ((toCountArray[i] != "*" || toCountArray[i] != "/" || toCountArray[i] != "+" || toCountArray[i + 1] != "-") && (toCountArray[i + 1] === "*" || toCountArray[i + 1] === "/" || toCountArray[i + 1] === "+" || toCountArray[i + 1] === "-")) {
-      //     console.log('mamy zmiane');
-      //     toCountArray.splice(i + 1, 0, 'x');
-      //     i++;
-      //     // numbers.push(toCountArray[i]);
-      //   } else {
-      //     console.log('oho!')
-      //   }
-      // }
-      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}`);
       const operators = ['+', '-', '*', '/'];
       for (let i = 0; i < toCountArray.length; i++) {
         if (operators.includes(toCountArray[i]) && !(operators.includes(toCountArray[i + 1]))) {
-          // operators.push(toCountArray[i]);
-          // console.log('mamy zmiane');
           toCountArray.splice(i + 1, 0, 'x');
           i++;
         } else if (operators.includes(toCountArray[i + 1]) && !(operators.includes(toCountArray[i]))) {
-          // console.log('mamy zmiane');
           toCountArray.splice(i + 1, 0, 'x');
           i++;
-          // numbers.push(toCountArray[i]);
-        } else {
-          // console.log('kontynuacja')
-        }
+        } else {}
       }
-      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}; ${typeof toCountArray}`);
       if (toCountArray[toCountArray.length - 1] != 'x') {
         toCountArray.push('x');
       }
       makeACount(toCountArray);
-      // return toCountArray;
 
     } else {
       console.log('nie wprowadzono danych');

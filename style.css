@@ -38,9 +38,11 @@
   }
 
   div#result {
-    height: 3rem;
+    height: auto;
+    min-height: 3rem;
     font-size: 2rem;
     line-height: 3rem;
     background-color: #eee;
     flex-basis: 100%;
+    flex-wrap: wrap;
   }

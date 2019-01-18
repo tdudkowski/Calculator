@@ -17,48 +17,162 @@
   const resultField = document.getElementById('result');
   const clearBtn = document.getElementById('clear');
   const clearAllBtn = document.getElementById('clearall');
+  const operators = ['+', '-', '*', '/'];
 
   const addASign = function () {
-   resultField.textContent += this.textContent;
+    resultField.textContent += this.textContent;
+  }
+
+
+  const handleMinusing = function (finalArr) {
+    console.log('ostatecznie: ' + finalArr);
+  }
+
+  const handleAdding = function (finalArr) {
+    handleMinusing(finalArr);
+  }
+
+  const handleDivision = function (finalArr) {
+    handleAdding(finalArr);
+  }
+
+  const handleMultiplication = function (finalArr) {
+    handleDivision(finalArr);
+  }
+
+  const handleMinuses = function (finalArr) {
+    handleMultiplication(finalArr);
+  }
+
+  const makeANumbers = function (finalArr) {
+    let test = (finalArr[0])[0];
+    if (operators.includes(test)) {
+      for (let i = 1; i < finalArr.length; i += 2) {
+        finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2);
+        finalArr[i] = parseFloat(finalArr[i]);
+        if ((finalArr[i - 1])[1] === '-') {
+          finalArr[i] = -(finalArr[i]);
+          finalArr[i - 1] = finalArr[i - 1].slice(0, -1)
+        }
+        console.log('operator first: ' + i, operators);
+        finalArr[i - 1] = finalArr[i - 1].substr(1);
+      }
+    } else {
+      for (let i = 0; i < finalArr.length - 1; i += 2) {
+        finalArr[i + 1] = finalArr[i + 1].substr(finalArr[i + 1].length - 2);
+        finalArr[i] = parseFloat(finalArr[i]);
+        if ((finalArr[i + 1])[1] === '-') {
+          finalArr[i + 2] = -(finalArr[i + 2]);
+          finalArr[i + 1] = finalArr[i + 1].slice(0, -1)
+        }
+        console.log('else: ' + i, operators, (finalArr[0])[0]);
+        finalArr[i + 1] = finalArr[i + 1].substr(1);
+      }
+    }
+    handleMinuses(finalArr);
+  }
+
+  const makeACount = function (toCountArray) {
+    let finalArr = [];
+    while (toCountArray.includes('x')) {
+      let terminus = toCountArray.indexOf('x');
+      let nextEl = toCountArray.splice(0, terminus);
+      toCountArray.splice(0, 1);
+      nextEl = nextEl.toString();
+      nextEl = nextEl.replace(/,/g, '');
+      finalArr.push(nextEl);
+    }
+    // else {
+    //   console.log('koniec')
+    // }
+    //.replace(/,/g, '')
+
+    makeANumbers(finalArr);
   }
 
   const countThis = function () {
-   let operators = [];
-   let numbers = [];
-   let toCount = resultField.textContent;
-   if (toCount) {
-    console.log(toCount, typeof toCount);
-    resultField.textContent = "";
-    // for (let i = 0; i < toCount.length; i++) {
-    //  if (toCount[i] == "*" || toCount[i] == "/" || toCount[i] == "+" || toCount[i] == "-") {
-    //   console.log('operator');
-    //  } else {
-    //   console.log('cyfra');
-    //  }
-    // }
-    let toCountArray = [...toCount];
+    let flag = true;
+    let operators = [];
+    let numbers = [];
+    let toCount = resultField.textContent;
+    if (toCount) {
+      // console.log(toCount, typeof toCount);
+      resultField.textContent = "";
+      let toCountArray = [...toCount];
 
-    for (let i = 0; i < toCountArray.length; i++) {
-     if (toCountArray[i] === "*" || toCountArray[i] === "/" || toCountArray[i] === "+" || toCountArray[i] === "-") {
-      operators.push(toCountArray[i]);
-     } else {
-      numbers.push(toCountArray[i]);
-     }
-     console.log(`operators ${operators}, numbers${numbers}, tocountarray ${toCountArray}`);
+      // for (let i = 0; i < toCountArray.length; i++) {
+      //   if (toCountArray[i] === "*" || toCountArray[i] === "/" || toCountArray[i] === "+" || toCountArray[i] === "-") {
+      //     operators.push(toCountArray[i]);
+      //   } else {
+      //     numbers.push(toCountArray[i]);
+      //   }
+      // }
+      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}`);
+      // return toCountArray;
+
+      // toCountArray.forEach(function (sign) {
+      //   if (sign === "*" || sign === "/" || sign === "+" || sign === "-") {
+      //     operators.push(sign);
+      //     numbers.push('');
+      //   } else {
+      //     numbers.push(sign);
+      //     operators.push('');
+      //   }
+      // });
+      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}; ${typeof toCountArray[1]}`);
+
+      // for (let i = 0; i < toCountArray.length; i++) {
+      //   if ((toCountArray[i + 1] != "*" || toCountArray[i + 1] != "/" || toCountArray[i + 1] != "+" || toCountArray[i + 1] != "-") && (toCountArray[i] === "*" || toCountArray[i] === "/" || toCountArray[i] === "+" || toCountArray[i + 1] === "-")) {
+      //     // operators.push(toCountArray[i]);
+      //     console.log('mamy zmiane');
+      //     toCountArray.splice(i + 1, 0, 'x');
+      //     i++;
+      //   } else if ((toCountArray[i] != "*" || toCountArray[i] != "/" || toCountArray[i] != "+" || toCountArray[i + 1] != "-") && (toCountArray[i + 1] === "*" || toCountArray[i + 1] === "/" || toCountArray[i + 1] === "+" || toCountArray[i + 1] === "-")) {
+      //     console.log('mamy zmiane');
+      //     toCountArray.splice(i + 1, 0, 'x');
+      //     i++;
+      //     // numbers.push(toCountArray[i]);
+      //   } else {
+      //     console.log('oho!')
+      //   }
+      // }
+      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}`);
+      const operators = ['+', '-', '*', '/'];
+      for (let i = 0; i < toCountArray.length; i++) {
+        if (operators.includes(toCountArray[i]) && !(operators.includes(toCountArray[i + 1]))) {
+          // operators.push(toCountArray[i]);
+          // console.log('mamy zmiane');
+          toCountArray.splice(i + 1, 0, 'x');
+          i++;
+        } else if (operators.includes(toCountArray[i + 1]) && !(operators.includes(toCountArray[i]))) {
+          // console.log('mamy zmiane');
+          toCountArray.splice(i + 1, 0, 'x');
+          i++;
+          // numbers.push(toCountArray[i]);
+        } else {
+          // console.log('kontynuacja')
+        }
+      }
+      // console.log(`operators: ${operators}, numbers: ${numbers}, tocountarray: ${toCountArray}; ${typeof toCountArray}`);
+      if (toCountArray[toCountArray.length - 1] != 'x') {
+        toCountArray.push('x');
+      }
+      makeACount(toCountArray);
+      // return toCountArray;
+
+    } else {
+      console.log('nie wprowadzono danych');
     }
-   } else {
-    console.log('nie wprowadzono danych');
-   }
   }
 
   const removeLast = () => {
-   let toCount = resultField.textContent;
-   toCount = toCount.slice(0, -1);
-   resultField.textContent = toCount;
+    let toCount = resultField.textContent;
+    toCount = toCount.slice(0, -1);
+    resultField.textContent = toCount;
   }
 
   const removeAll = () => {
-   resultField.textContent = "";
+    resultField.textContent = "";
   }
 
   zeroBtn.addEventListener('click', addASign);

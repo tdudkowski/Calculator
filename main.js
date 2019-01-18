@@ -49,13 +49,15 @@
     if (operators.includes(test)) {
       for (let i = 1; i < finalArr.length; i += 2) {
         finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2);
+        console.log('co mamy: ' + finalArr[i - 1]);
         finalArr[i] = parseFloat(finalArr[i]);
         if ((finalArr[i - 1])[1] === '-') {
           finalArr[i] = -(finalArr[i]);
-          finalArr[i - 1] = finalArr[i - 1].slice(0, -1)
+          finalArr[i - 1] = finalArr[i - 1].slice(-1);
+          console.log('co mamy2: ' + finalArr[i - 1]);
         }
         console.log('operator first: ' + i, operators);
-        finalArr[i - 1] = finalArr[i - 1].substr(1);
+        finalArr[i - 1] = finalArr[i - 1].slice(-1);
       }
     } else {
       for (let i = 0; i < finalArr.length - 1; i += 2) {
@@ -63,10 +65,10 @@
         finalArr[i] = parseFloat(finalArr[i]);
         if ((finalArr[i + 1])[1] === '-') {
           finalArr[i + 2] = -(finalArr[i + 2]);
-          finalArr[i + 1] = finalArr[i + 1].slice(0, -1)
+          finalArr[i + 1] = finalArr[i + 1].slice(-1);
         }
-        console.log('else: ' + i, operators, (finalArr[0])[0]);
-        finalArr[i + 1] = finalArr[i + 1].substr(1);
+        console.log('else: ' + i, operators, finalArr[0]);
+        finalArr[i + 1] = finalArr[i + 1].slice(-1);
       }
     }
     handleMinuses(finalArr);

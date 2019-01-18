@@ -141,7 +141,7 @@
 
     finalArr.forEach((element, index) => {
       if (element === NaN) {
-        finalArr.splice(i, 1)
+        finalArr.splice(i - 1, 2)
       }
     });
 

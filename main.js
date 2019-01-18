@@ -75,21 +75,23 @@
   const makeANumbers = function (finalArr) {
 
     let test2 = (finalArr[finalArr.length - 1])[0]; // czy ostatni string to operator
-    console.log('testy: ' + test2, finalArr, finalArr[finalArr.length - 1]);
     if (operators.includes(test2)) {
       finalArr.pop();
     }
 
     let test1 = (finalArr[0])[0]; // czy pierwszy string to operator
-    if (operators.includes(test1)) {
+    if (operators.includes(test1)) { // pierwszy string to operator
       for (let i = 1; i < finalArr.length; i += 2) {
-        finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2);
-        finalArr[i] = parseFloat(finalArr[i]);
-        if ((finalArr[i - 1])[1] === '-') {
-          finalArr[i] = -(finalArr[i]);
-          finalArr[i - 1] = finalArr[i - 1].slice(-1);
+        finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2); // obcięcie do dwóch ostatnich znaków
+        finalArr[i] = parseFloat(finalArr[i]); // zamiana liczb na liczby
+        if ((finalArr[i - 1])[1] === '-') { // jeśli drugi ze znaków to minus
+          finalArr[i] = -(finalArr[i]); // następna liczba staje się ujemna
+          finalArr[i - 1] = finalArr[i - 1].slice(-1, -1);
+          finalArr.shift();
+        } else {
+          finalArr[i - 1] = finalArr[i - 1].slice(0, 0);
+          finalArr.shift();
         }
-        finalArr[i - 1] = finalArr[i - 1].slice(-1);
       }
     } else {
       for (let i = 0; i < finalArr.length - 1; i += 2) {

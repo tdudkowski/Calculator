@@ -120,11 +120,12 @@
       nextEl = nextEl.replace(/,/g, '');
       finalArr.push(nextEl);
     }
+    if (finalArr.length == 1) return;
     makeANumbers(finalArr);
   }
 
   const countThis = function () {
-    let flag = true;
+    let flag = true; // o co chodzi?
     let operators = [];
     let numbers = [];
     let toCount = resultField.textContent;
@@ -145,6 +146,8 @@
       if (toCountArray[toCountArray.length - 1] != 'x') {
         toCountArray.push('x');
       }
+      // if (toCountArray.length <= 2) return;
+      // console.log('długość to ' + toCountArray);
       makeACount(toCountArray);
 
     } else {

@@ -15,7 +15,7 @@
 
     <div>
         <h4>Działanie: <span></span></h4>
-        <div id="result"></div>
+        <div id="result"><span></span></div>
         <div id="clear">Clear</div>
         <div id="clearall">Clear All</div>
         <div id="multiplication">*</div>
@@ -36,6 +36,22 @@
         <div id="run">Oblicz</div>
 
     </div>
+    <main>
+        <p>This is my first calculator written in JavaScript. It works. All problems fixed (except the dot problem, so
+            do not touch it)</p>
+        <ul>
+            <li>Dividing by zero is illegal, and not supported</li>
+            <li>All division results are rounded to fifth position after the dot</li>
+            <li>Only the last one operator is counted, except situation when the last one is minus, so...</li>
+            <li>If the last one operator is minus, then next number is negative, and the previous one operator is
+                counted, except situation when the minus is the only one, so...</li>
+            <li>If the minus is the only one, this is just the minus.</li>
+        </ul>
+        <!--
+                TODO
+                dot problem (NaN), it's BIG
+           -->
+    </main>
     <script src="main.js"></script>
 </body>
 

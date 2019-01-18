@@ -14,7 +14,7 @@
   const divisionBtn = document.getElementById('division');
   const comaBtn = document.getElementById('coma');
   const runBtn = document.getElementById('run');
-  const resultField = document.getElementById('result');
+  const resultField = document.querySelector('div#result>span');
   const clearBtn = document.getElementById('clear');
   const clearAllBtn = document.getElementById('clearall');
   const showCounting = document.querySelector('h4>span');
@@ -28,7 +28,6 @@
     }
     resultField.textContent += this.textContent;
   }
-
 
   const handleMinusing = function (finalArr) {
     if (finalArr.includes('-')) {
@@ -56,9 +55,9 @@
     while (finalArr.includes('/')) {
       console.log('mamy dzielenie');
       let actionPoint = finalArr.indexOf('/');
-      if (finalArr[actionPoint + 1] == 0) return console.log('dzielenie przez zero jest nielegalne');
+      if (finalArr[actionPoint + 1] == 0) return resultField.textContent = 'dzielenie przez zero jest nielegalne';
       let result = finalArr[actionPoint - 1] / finalArr[actionPoint + 1];
-      finalArr.splice(actionPoint - 1, 3, result);
+      finalArr.splice(actionPoint - 1, 3, result.toFixed(5));
     }
     handleAdding(finalArr);
   }
@@ -74,8 +73,15 @@
   }
 
   const makeANumbers = function (finalArr) {
-    let test = (finalArr[0])[0];
-    if (operators.includes(test)) {
+
+    let test2 = (finalArr[finalArr.length - 1])[0]; // czy ostatni string to operator
+    console.log('testy: ' + test2, finalArr, finalArr[finalArr.length - 1]);
+    if (operators.includes(test2)) {
+      finalArr.pop();
+    }
+
+    let test1 = (finalArr[0])[0]; // czy pierwszy string to operator
+    if (operators.includes(test1)) {
       for (let i = 1; i < finalArr.length; i += 2) {
         finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2);
         finalArr[i] = parseFloat(finalArr[i]);
@@ -83,7 +89,6 @@
           finalArr[i] = -(finalArr[i]);
           finalArr[i - 1] = finalArr[i - 1].slice(-1);
         }
-        console.log('operator first: ' + i, operators);
         finalArr[i - 1] = finalArr[i - 1].slice(-1);
       }
     } else {
@@ -97,6 +102,7 @@
         finalArr[i + 1] = finalArr[i + 1].slice(-1);
       }
     }
+
     let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
     showCounting.textContent = txtToShowInH4; // prezentacja działania
     handleMultiplication(finalArr);
@@ -112,7 +118,6 @@
       nextEl = nextEl.replace(/,/g, '');
       finalArr.push(nextEl);
     }
-
     makeANumbers(finalArr);
   }
 

@@ -44,5 +44,19 @@
     line-height: 3rem;
     background-color: #eee;
     flex-basis: 100%;
+    display: flex;
     flex-wrap: wrap;
+  }
+
+  div#result span {
+    text-align: center;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  main {
+    border: 1px solid #ddd;
+    background-color: #eee;
+    margin: 1rem auto;
+    padding: 1rem 2rem;
   }

@@ -17,6 +17,7 @@
   const resultField = document.getElementById('result');
   const clearBtn = document.getElementById('clear');
   const clearAllBtn = document.getElementById('clearall');
+  const showCounting = document.querySelector('h4>span');
   const operators = ['+', '-', '*', '/'];
 
   const addASign = function () {
@@ -58,6 +59,7 @@
         }
         console.log('operator first: ' + i, operators);
         finalArr[i - 1] = finalArr[i - 1].slice(-1);
+        // finalArr.shift();
       }
     } else {
       for (let i = 0; i < finalArr.length - 1; i += 2) {
@@ -71,6 +73,8 @@
         finalArr[i + 1] = finalArr[i + 1].slice(-1);
       }
     }
+    let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
+    showCounting.textContent = txtToShowInH4;
     handleMinuses(finalArr);
   }
 

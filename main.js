@@ -30,7 +30,7 @@
   }
 
   const handleMinusing = function (finalArr) {
-    if (finalArr.includes('-')) {
+    while (finalArr.includes('-')) {
       console.log('mamy odejmowanie');
       let actionPoint = finalArr.indexOf('-');
       let result = finalArr[actionPoint - 1] - finalArr[actionPoint + 1];
@@ -42,7 +42,7 @@
   }
 
   const handleAdding = function (finalArr) {
-    if (finalArr.includes('+')) {
+    while (finalArr.includes('+')) {
       console.log('mamy dodawanie');
       let actionPoint = finalArr.indexOf('+');
       let result = parseFloat(finalArr[actionPoint - 1]) + parseFloat(finalArr[actionPoint + 1]);
@@ -55,7 +55,7 @@
     while (finalArr.includes('/')) {
       console.log('mamy dzielenie');
       let actionPoint = finalArr.indexOf('/');
-      if (finalArr[actionPoint + 1] == 0) return resultField.textContent = 'dzielenie przez zero jest nielegalne';
+      if (finalArr[actionPoint + 1] == 0) return resultField.textContent = '"Dividing by zero is illegal" Al Capone';
       let result = finalArr[actionPoint - 1] / finalArr[actionPoint + 1];
       finalArr.splice(actionPoint - 1, 3, result.toFixed(5));
     }
@@ -72,6 +72,7 @@
     handleDivision(finalArr);
   }
 
+  // MAKE A NUMBERS
   const makeANumbers = function (finalArr) {
 
     let test2 = (finalArr[finalArr.length - 1])[0]; // czy ostatni string to operator
@@ -81,33 +82,69 @@
 
     let test1 = (finalArr[0])[0]; // czy pierwszy string to operator
     if (operators.includes(test1)) { // pierwszy string to operator
-      for (let i = 0; i < finalArr.length - 1; i += 2) {
+      for (let i = 0; i < finalArr.length; i += 2) {
         finalArr[i] = finalArr[i].substr(finalArr[i].length - 2); // obcięcie do dwóch ostatnich znaków
+        while ((finalArr[i + 1])[0] === ".") { // ucina kropki z przodu
+          finalArr[i + 1] = finalArr[i + 1].substring(1);
+        }
+        // znaleźć drugie wystąpienie kropki i odcięcie wszystkiego !
+        for (let j = 0; j < 2; j++) {
+          let startDelete = finalArr[i + 1].indexOf('.');
+          if (j = 1) {
+            finalArr[i + 1].length = startDelete;
+          }
+        }
+
         finalArr[i + 1] = parseFloat(finalArr[i + 1]); // zamiana co drugiego na liczbę
         if ((finalArr[i])[1] === '-') { // jeśli drugi ze znaków to minus
           finalArr[i + 1] = -(finalArr[i + 1]); // następna liczba staje się ujemna
           finalArr[i] = finalArr[i].slice(0, 1);
-          console.log('tu jest problem1' + finalArr[i])
         } else {
           finalArr[i] = finalArr[i].slice(1);
-          console.log('tu jest problem2 ' + finalArr[i])
         }
       }
       finalArr.shift();
+      console.log('jeden ' + finalArr);
     } else {
-      for (let i = 0; i < finalArr.length - 1; i += 2) {
-        finalArr[i + 1] = finalArr[i + 1].substr(finalArr[i + 1].length - 2);
+      for (let i = 0; i < finalArr.length; i += 2) {
+        if (i < finalArr.length - 1) {
+          finalArr[i + 1] = finalArr[i + 1].substr(finalArr[i + 1].length - 2);
+        }
+        while ((finalArr[i])[0] === ".") {
+          finalArr[i] = finalArr[i].substring(1);
+        }
+
+        // znaleźć drugie wystąpienie kropki i odcięcie wszystkiego !
+        for (let j = 0; j < 2; j++) {
+          console.log(j, i)
+          let startDelete = finalArr[i].indexOf('.');
+          if (j == 1) {
+            finalArr[i].length = startDelete;
+            console.log('dwa czyzby? ' + startDelete, finalArr[i]);
+          }
+        }
+
         finalArr[i] = parseFloat(finalArr[i]);
-        if ((finalArr[i + 1])[1] === '-') {
+        if (i < finalArr.length - 1 && (finalArr[i + 1])[1] === '-') {
           finalArr[i + 2] = -(finalArr[i + 2]);
           finalArr[i + 1] = finalArr[i + 1].slice(-1);
         }
-        finalArr[i + 1] = finalArr[i + 1].slice(-1);
+        if (i < finalArr.length - 1) {
+          finalArr[i + 1] = finalArr[i + 1].slice(-1);
+        }
       }
+      console.log('dwa ' + finalArr, finalArr.length);
     }
 
     let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
     showCounting.textContent = txtToShowInH4; // prezentacja działania
+
+    finalArr.forEach((element, index) => {
+      if (element === NaN) {
+        finalArr.splice(i, 1)
+      }
+    });
+
     handleMultiplication(finalArr);
   }
 
@@ -136,13 +173,17 @@
 
       const operators = ['+', '-', '*', '/'];
       for (let i = 0; i < toCountArray.length; i++) {
+        while (toCountArray[i] == "." && toCountArray[i + 1] == ".") {
+          toCountArray.splice(i, 1);
+        }
         if (operators.includes(toCountArray[i]) && !(operators.includes(toCountArray[i + 1]))) {
           toCountArray.splice(i + 1, 0, 'x');
           i++;
-        } else if (operators.includes(toCountArray[i + 1]) && !(operators.includes(toCountArray[i]))) {
+        }
+        if (operators.includes(toCountArray[i + 1]) && !(operators.includes(toCountArray[i]))) {
           toCountArray.splice(i + 1, 0, 'x');
           i++;
-        } else {}
+        }
       }
       if (toCountArray[toCountArray.length - 1] != 'x') {
         toCountArray.push('x');

@@ -14,7 +14,7 @@
 <body>
 
     <div>
-        <h4>Działanie: <span></span></h4>
+        <h4>Operation done: <span></span></h4>
         <div id="result"><span></span></div>
         <div id="clear">Clear</div>
         <div id="clearall">Clear All</div>
@@ -33,12 +33,12 @@
         <div id="coma">.</div>
         <div id="eight">8</div>
         <div id="nine">9</div>
-        <div id="run">Oblicz</div>
+        <div id="run"><strong>Calculate</strong></div>
 
     </div>
     <main>
-        <p>This is my first calculator written in JavaScript. It works. All problems fixed (except the dot problem, so
-            do not touch it)</p>
+        <p>This is my first calculator written in JavaScript. It works, but is still buggy, especially if many dots are
+            in operation.</p>
         <ul>
             <li>Dividing by zero is illegal, and not supported</li>
             <li>All division results are rounded to fifth position after the dot</li>
@@ -46,11 +46,15 @@
             <li>If the last one operator is minus, then next number is negative, and the previous one operator is
                 counted, except situation when the minus is the only one, so...</li>
             <li>If the minus is the only one, this is just the minus.</li>
+            <li>Dot is a decimal. All dots from the beginning of a number are removed, so <em>.1</em> is just a <em>1</em>
+                not <em>0.1</em>, as one could expect. Only the first dot in a number is sounting, the second one and
+                all signs after it are deleted.</li>
         </ul>
         <!--
                 TODO
-                dot problem (NaN), it's BIG                
-                result is removed if operator is added
+                dot problem, this is BIG
+                result is removed if operator is added, maybe it should be that way
+                remove zeros after division
            -->
     </main>
     <script src="main.js"></script>

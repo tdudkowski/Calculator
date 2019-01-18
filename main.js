@@ -81,18 +81,19 @@
 
     let test1 = (finalArr[0])[0]; // czy pierwszy string to operator
     if (operators.includes(test1)) { // pierwszy string to operator
-      for (let i = 1; i < finalArr.length; i += 2) {
-        finalArr[i - 1] = finalArr[i - 1].substr(finalArr[i - 1].length - 2); // obcięcie do dwóch ostatnich znaków
-        finalArr[i] = parseFloat(finalArr[i]); // zamiana liczb na liczby
-        if ((finalArr[i - 1])[1] === '-') { // jeśli drugi ze znaków to minus
-          finalArr[i] = -(finalArr[i]); // następna liczba staje się ujemna
-          finalArr[i - 1] = finalArr[i - 1].slice(-1, -1);
-          finalArr.shift();
+      for (let i = 0; i < finalArr.length - 1; i += 2) {
+        finalArr[i] = finalArr[i].substr(finalArr[i].length - 2); // obcięcie do dwóch ostatnich znaków
+        finalArr[i + 1] = parseFloat(finalArr[i + 1]); // zamiana co drugiego na liczbę
+        if ((finalArr[i])[1] === '-') { // jeśli drugi ze znaków to minus
+          finalArr[i + 1] = -(finalArr[i + 1]); // następna liczba staje się ujemna
+          finalArr[i] = finalArr[i].slice(0, 1);
+          console.log('tu jest problem1' + finalArr[i])
         } else {
-          finalArr[i - 1] = finalArr[i - 1].slice(0, 0);
-          finalArr.shift();
+          finalArr[i] = finalArr[i].slice(1);
+          console.log('tu jest problem2 ' + finalArr[i])
         }
       }
+      finalArr.shift();
     } else {
       for (let i = 0; i < finalArr.length - 1; i += 2) {
         finalArr[i + 1] = finalArr[i + 1].substr(finalArr[i + 1].length - 2);
@@ -146,8 +147,6 @@
       if (toCountArray[toCountArray.length - 1] != 'x') {
         toCountArray.push('x');
       }
-      // if (toCountArray.length <= 2) return;
-      // console.log('długość to ' + toCountArray);
       makeACount(toCountArray);
 
     } else {

@@ -33,6 +33,10 @@
     background-color: #fff;
   }
 
+  div>strong {
+    user-select: none;
+  }
+
   div>div:hover {
     background-color: #fcfcfc;
   }

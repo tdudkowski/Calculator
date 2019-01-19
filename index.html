@@ -39,23 +39,29 @@
     <main>
         <p>This is my first calculator written in JavaScript. It works, but there'll be still some errors hard to
             reproduce. Dots are tricky, do not touch it.</p>
+
+        <h3>Instro</h3>
         <ul>
             <li>Dividing by zero is illegal, and not supported</li>
             <li>All division results are rounded to fifth position after the dot</li>
             <li>Only the last one operator is counted, except situation when the last one is minus, so...</li>
             <li>If the last one operator is minus, then next number is negative, and the previous one operator is
                 counted, except situation when the minus is the only one, so...</li>
-            <li>If the minus is the only one, this is just the minus.</li>
+            <li>If the minus is the only one, this is just the minus, except the situation when that minus is before
+                the first number, so...</li>
+            <li>If the minus is the only one (or the last in a row) operator before the first number it changes sign of
+                that number to negative. Simply.</li>
             <li>Dot is a decimal. All dots from the beginning of a number are removed, so <em>.1</em> is just a <em>1</em>
                 not <em>0.1</em>, as one could expect. Only the first dot in a number is sounting, the second one and
                 all signs after it are deleted.</li>
         </ul>
-        <!--
-                TODO
-                dot problem, this is BIG
-                result is removed if operator is added, maybe it should be that way
-                remove zeros after division
-           -->
+
+        <h3>ToDo</h3>
+        <ul>
+            <li>dot problem, this is BIG</li>
+            <li>result is removed if operator is added, maybe it should be that way</li>
+            <li>redundant zeros after division should be removed</li>
+        </ul>
     </main>
     <script src="main.js"></script>
 </body>

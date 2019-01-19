@@ -33,10 +33,10 @@
     while (finalArr.includes('-')) {
       console.log('mamy odejmowanie');
       let actionPoint = finalArr.indexOf('-');
-      let result = finalArr[actionPoint - 1] - finalArr[actionPoint + 1];
+      let result = parseFloat(finalArr[actionPoint - 1]) - parseFloat(finalArr[actionPoint + 1]);
       finalArr.splice(actionPoint - 1, 3, result);
     }
-    console.log('ostatecznie: ' + finalArr);
+    console.log('wynik: ' + finalArr);
     resultField.textContent = finalArr;
     flag = true;
   }
@@ -72,59 +72,36 @@
     handleDivision(finalArr);
   }
 
-  // MAKE A NUMBERS
+  // MAKE_A_NUMBERS
   const makeANumbers = function (finalArr) {
-
-    let test2 = (finalArr[finalArr.length - 1])[0]; // czy ostatni string to operator
-    if (operators.includes(test2)) {
-      finalArr.pop();
-    }
-
+    // OPERATORY NA POCZĄTKU
     let test1 = (finalArr[0])[0]; // czy pierwszy string to operator
     if (operators.includes(test1)) { // pierwszy string to operator
-      for (let i = 0; i < finalArr.length; i += 2) {
-        finalArr[i] = finalArr[i].substr(finalArr[i].length - 2); // obcięcie do dwóch ostatnich znaków
-        while ((finalArr[i + 1])[0] === ".") { // ucina kropki z przodu
-          finalArr[i + 1] = finalArr[i + 1].substring(1);
-        }
-        // znaleźć drugie wystąpienie kropki i odcięcie wszystkiego !
-        for (let j = 0; j < 2; j++) {
-          let startDelete = finalArr[i + 1].indexOf('.');
-          if (j = 1) {
-            finalArr[i + 1].length = startDelete;
+      if (finalArr[0] === '-') {
+        finalArr[1] = -(finalArr[1]); // pierwsza liczba staje się ujemna}
+        console.log('tylko jeden znak i jest to minus' + finalArr[1]);
+      }
+      for (let i = 0; i < finalArr.length; i += 2) { // parzysta liczba stringów
+        finalArr[i + 1] = parseFloat(finalArr[i + 1]); // zamiana co drugiego stringu na liczbę
+        if (finalArr[i].length >= 2) {
+          finalArr[i] = finalArr[i].substr(-2); // obcięcie do dwóch ostatnich znaków jeżeli jest ich więcej
+          // console.log('elo' + finalArr[i], finalArr[i].length)
+          if ((finalArr[i])[1] === '-') { // jeśli drugi ze znaków to minus
+            finalArr[i + 1] = finalArr[i + 1] * -1; // następna liczba staje się ujemna
+            finalArr[i] = finalArr[i].slice(0, 1); // wybrany zostaje pierwszy znak
+          } else {
+            finalArr[i] = finalArr[i].slice(1); // wybrany zostaje drugi znak
           }
-        }
-
-        finalArr[i + 1] = parseFloat(finalArr[i + 1]); // zamiana co drugiego na liczbę
-        if ((finalArr[i])[1] === '-') { // jeśli drugi ze znaków to minus
-          finalArr[i + 1] = -(finalArr[i + 1]); // następna liczba staje się ujemna
-          finalArr[i] = finalArr[i].slice(0, 1);
-        } else {
-          finalArr[i] = finalArr[i].slice(1);
         }
       }
       finalArr.shift();
-      console.log('jeden ' + finalArr);
-    } else {
-      for (let i = 0; i < finalArr.length; i += 2) {
-        if (i < finalArr.length - 1) {
-          finalArr[i + 1] = finalArr[i + 1].substr(finalArr[i + 1].length - 2);
-        }
-        while ((finalArr[i])[0] === ".") {
-          finalArr[i] = finalArr[i].substring(1);
-        }
-
-        // znaleźć drugie wystąpienie kropki i odcięcie wszystkiego !
-        for (let j = 0; j < 2; j++) {
-          console.log(j, i)
-          let startDelete = finalArr[i].indexOf('.');
-          if (j == 1) {
-            finalArr[i].length = startDelete;
-            console.log('dwa czyzby? ' + startDelete, finalArr[i]);
-          }
-        }
-
+    } else { // pierwszy string to nie operator
+      console.log('na poczatku nie operator');
+      for (let i = 0; i < finalArr.length; i += 2) { // zawsze nieparzysta liczba elementów
         finalArr[i] = parseFloat(finalArr[i]);
+        if (i < finalArr.length - 1) {
+          finalArr[i + 1] = finalArr[i + 1].substr(-2); // obcięcie ostatnich dwóch znaków z operatorów
+        }
         if (i < finalArr.length - 1 && (finalArr[i + 1])[1] === '-') {
           finalArr[i + 2] = -(finalArr[i + 2]);
           finalArr[i + 1] = finalArr[i + 1].slice(-1);
@@ -133,62 +110,95 @@
           finalArr[i + 1] = finalArr[i + 1].slice(-1);
         }
       }
-      console.log('dwa ' + finalArr, finalArr.length);
     }
 
+    // NaN
+    // finalArr.forEach((element, index) => { // usunięcie każdego NaN i poprzedzającego go stringa z operatorami
+    //   if (typeof element === 'number' && isNaN(element)) {
+    //     finalArr.splice(index - 1, 2);
+    //     console.log('DELETED!' + element, finalArr);
+    //   }
+    // });
+
+    // FINAL
     let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
     showCounting.textContent = txtToShowInH4; // prezentacja działania
-
-    finalArr.forEach((element, index) => {
-      if (element === NaN) {
-        finalArr.splice(i - 1, 2)
-      }
-    });
-
+    console.log('po makeANumbers ' + finalArr);
     handleMultiplication(finalArr);
   }
 
+  // HANDLE_DOTS USUWA OSTATNI CIĄG JEŚLI TO OPERATOR
+  const handleDots = function (finalArr) {
+    let test2 = (finalArr[finalArr.length - 1])[0]; // czy ostatni string to operator
+    if (operators.includes(test2)) {
+      finalArr.pop(); // jeżeli to operator to usuwa go
+    }
+
+    // KROPKI
+    for (let i = 0; i < finalArr.length; i++) {
+      while ((finalArr[i])[0] === ".") { // ucina kropki z przodu
+        finalArr[i] = finalArr[i].substr(1);
+      }
+      // znaleźć drugie wystąpienie kropki i odcięcie wszystkiego !
+      let j = 0;
+      while (j < 2) {
+        let startDelete = finalArr[i].indexOf(".");
+        if (j == 1 && startDelete > j) {
+          finalArr[i].length = startDelete;
+        }
+        j++;
+      }
+      // NaN
+      if (typeof finalArr[i] === 'number' && isNaN(finalArr[i])) {
+        finalArr.splice(i - 1, 2);
+      }
+    }
+    console.log('przed makeANumbers ' + finalArr);
+    makeANumbers(finalArr);
+  }
+
+  // MAKE_A_COUNT UTWORZENIE TABLICY ZE STRINGAMI LICZBA/OPERATOR
   const makeACount = function (toCountArray) {
-    let finalArr = [];
+    let finalArr = []; // tablica
     while (toCountArray.includes('x')) {
       let terminus = toCountArray.indexOf('x');
       let nextEl = toCountArray.splice(0, terminus);
       toCountArray.splice(0, 1);
       nextEl = nextEl.toString();
-      nextEl = nextEl.replace(/,/g, '');
-      finalArr.push(nextEl);
+      nextEl = nextEl.replace(/,/g, ''); // usunięcie przecinków
+      finalArr.push(nextEl); // umieszczenie kolejnych stringów w tablicy
     }
     if (finalArr.length == 1) return;
-    makeANumbers(finalArr);
+    console.log('przed handleDots ' + finalArr);
+    handleDots(finalArr);
   }
 
+  // COUNT_THIS OPRACOWANIE INPUTU
   const countThis = function () {
-    let flag = true; // o co chodzi?
     let operators = [];
-    let numbers = [];
     let toCount = resultField.textContent;
     if (toCount) {
       resultField.textContent = "";
-      let toCountArray = [...toCount];
+      let toCountArray = [...toCount]; // zmiana na tablicę
 
       const operators = ['+', '-', '*', '/'];
       for (let i = 0; i < toCountArray.length; i++) {
-        while (toCountArray[i] == "." && toCountArray[i + 1] == ".") {
+        while (toCountArray[i] == "." && toCountArray[i + 1] == ".") { // usunięcie wielokrotnych wystąpień kropek
           toCountArray.splice(i, 1);
         }
-        if (operators.includes(toCountArray[i]) && !(operators.includes(toCountArray[i + 1]))) {
+        if (operators.includes(toCountArray[i]) && !(operators.includes(toCountArray[i + 1]))) { // dodanie x po operatorach
           toCountArray.splice(i + 1, 0, 'x');
           i++;
         }
-        if (operators.includes(toCountArray[i + 1]) && !(operators.includes(toCountArray[i]))) {
+        if (operators.includes(toCountArray[i + 1]) && !(operators.includes(toCountArray[i]))) { // dodanie x po numerach
           toCountArray.splice(i + 1, 0, 'x');
           i++;
         }
       }
-      if (toCountArray[toCountArray.length - 1] != 'x') {
+      if (toCountArray[toCountArray.length - 1] != 'x') { // dodanie x na końcu
         toCountArray.push('x');
       }
-      makeACount(toCountArray);
+      makeACount(toCountArray); // input
 
     } else {
       console.log('nie wprowadzono danych');

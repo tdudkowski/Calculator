@@ -97,7 +97,6 @@
       }
       finalArr.shift(); // removing first unneceseary string
     } else { // first string is not an operator
-      console.log('not an operator on the beginning');
       for (let i = 0; i < finalArr.length; i += 2) { // always odd number of elements
         if (i < finalArr.length - 1 && finalArr[i + 1].length > 1) { // if there're more than one operator
           if ((finalArr[i + 1])[1] === '-') { // if second sign of previous string is a minus
@@ -138,7 +137,6 @@
     for (let i = 0; i < finalArr.length; i++) {
       // removes string of the operators if the next string is also an operator - is it still needed?
       if (operators.includes((finalArr[i])[0]) && operators.includes((finalArr[i + 1])[0])) {
-        console.log('removed string of operators ' + i + finalArr[i] + finalArr[i + 1])
         finalArr.splice(i, 1);
       }
 
@@ -148,7 +146,11 @@
       }
     }
 
-    if (finalArr.length < 3) return console.log('too few strings');
+    if (finalArr.length < 3) {
+      console.log('too few strings');
+      showCounting.textContent = 'none, not enough data to calculate';
+      return;
+    }
     console.log('2. makeACount finalArr ' + finalArr);
     makeANumbers(finalArr);
   }
@@ -167,8 +169,6 @@
       for (let i = 0; i < toCountArray.length; i++) { // removing all dots not between ciphers
         while (toCountArray[i] == "." && !(numbers.includes(toCountArray[i - 1]) && numbers.includes(toCountArray[i + 1]))) { // usunięcie wielokrotnych wystąpień kropek
           toCountArray.splice(i, 1);
-          console.log('is it working');
-          // i--;
         }
       }
 
@@ -176,8 +176,6 @@
       for (let i = 0; i < toCountArray.length; i++) { // removing all operators in a row (string) except two last
         while (operators.includes(toCountArray[i]) && operators.includes(toCountArray[i + 1]) && operators.includes(toCountArray[i + 2])) { // usunięcie wielokrotnych wystąpień kropek
           toCountArray.splice(i, 1);
-          console.log('cuts operators to max two in a row');
-          // i--;
         }
       }
 
@@ -202,9 +200,11 @@
         makeACount(toCountArray); // input
       } else {
         console.log('nothing left!');
+        showCounting.textContent = 'none, nothing left!';
       }
     } else {
       console.log('no data in input');
+      showCounting.textContent = 'none, no data in input';
     }
   }
 

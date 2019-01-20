@@ -141,7 +141,7 @@
      makeANumbers(finalArr);
    }
 
-   // COUNT_THIS OPRACOWANIE INPUTU
+   // COUNT_THIS HANDLE INPUT
    const countThis = function () {
      let toCount = resultField.textContent;
      if (toCount) {
@@ -165,7 +165,7 @@
          }
        }
 
-       // TERMINATOR
+       // ADD A TERMINATORS
        for (let i = 0; i < toCountArray.length; i++) { // adding terminators between rows of an operators and a numbers
          if (operators.includes(toCountArray[i]) && !(operators.includes(toCountArray[i + 1]))) { // adding x after operators
            toCountArray.splice(i + 1, 0, 'x');

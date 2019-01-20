@@ -89,7 +89,7 @@
              finalArr[i + 2] = -(finalArr[i + 2]); // next number become negative
              finalArr[i + 1] = finalArr[i + 1].slice(0, 1);
            } else {
-             finalArr[i + 1] = finalArr[i + 1].slice(1); // both were (-1) why?
+             finalArr[i + 1] = finalArr[i + 1].slice(1);
            }
          }
        }
@@ -97,7 +97,7 @@
 
      // FINAL
      let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
-     showCounting.textContent = txtToShowInH4; // presentation of working
+     showCounting.textContent = txtToShowInH4; // display calculations
      console.log('3. makeANumbers finalArr ' + finalArr);
      handleMultiplication(finalArr);
    }
@@ -146,21 +146,21 @@
      let toCount = resultField.textContent;
      if (toCount) {
        resultField.textContent = "";
-       let toCountArray = [...toCount]; // zmiana na tablicę
+       let toCountArray = [...toCount]; // changing into an array
 
        const operators = ['+', '-', '*', '/'];
        const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
        // HANDLE DOTS
        for (let i = 0; i < toCountArray.length; i++) { // removing all dots not between ciphers
-         while (toCountArray[i] == "." && !(numbers.includes(toCountArray[i - 1]) && numbers.includes(toCountArray[i + 1]))) { // usunięcie wielokrotnych wystąpień kropek
+         while (toCountArray[i] == "." && !(numbers.includes(toCountArray[i - 1]) && numbers.includes(toCountArray[i + 1]))) {
            toCountArray.splice(i, 1);
          }
        }
 
        // HANDLE OPERATORS
        for (let i = 0; i < toCountArray.length; i++) { // removing all operators in a row (string) except two last
-         while (operators.includes(toCountArray[i]) && operators.includes(toCountArray[i + 1]) && operators.includes(toCountArray[i + 2])) { // usunięcie wielokrotnych wystąpień kropek
+         while (operators.includes(toCountArray[i]) && operators.includes(toCountArray[i + 1]) && operators.includes(toCountArray[i + 2])) {
            toCountArray.splice(i, 1);
          }
        }

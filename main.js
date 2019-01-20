@@ -7,17 +7,10 @@
    const operators = ['+', '-', '*', '/'];
    let flag = false;
 
-   const addASign = function () {
-     if (flag) {
-       resultField.textContent = "";
-       flag = false;
-     }
-     resultField.textContent += this.textContent;
-   }
-
-   const handleMinus = function (finalArr) {
+   // 8. SUBTRACTION AND SHOW THE RESULT
+   const handleSubtraction = function (finalArr) {
      while (finalArr.includes('-')) {
-       console.log('minus');
+       console.log('subtraction');
        let actionPoint = finalArr.indexOf('-');
        let result = parseFloat(finalArr[actionPoint - 1]) - parseFloat(finalArr[actionPoint + 1]);
        finalArr.splice(actionPoint - 1, 3, result);
@@ -28,16 +21,18 @@
      flag = true;
    }
 
-   const handleAdding = function (finalArr) {
+   // 7. ADDITION
+   const handleAddition = function (finalArr) {
      while (finalArr.includes('+')) {
-       console.log('add');
+       console.log('addition');
        let actionPoint = finalArr.indexOf('+');
        let result = parseFloat(finalArr[actionPoint - 1]) + parseFloat(finalArr[actionPoint + 1]);
        finalArr.splice(actionPoint - 1, 3, result);
      }
-     handleMinus(finalArr);
+     handleSubtraction(finalArr);
    }
 
+   // 6. DIVISION
    const handleDivision = function (finalArr) {
      while (finalArr.includes('/')) {
        console.log('division');
@@ -50,12 +45,13 @@
        let result = finalArr[actionPoint - 1] / finalArr[actionPoint + 1];
        finalArr.splice(actionPoint - 1, 3, result.toFixed(5));
      }
-     handleAdding(finalArr);
+     handleAddition(finalArr);
    }
 
+   // 5. MULTIPLICATION
    const handleMultiplication = function (finalArr) {
      while (finalArr.includes('*')) {
-       console.log('multiply');
+       console.log('multiplication');
        let actionPoint = finalArr.indexOf('*');
        let result = finalArr[actionPoint - 1] * finalArr[actionPoint + 1];
        finalArr.splice(actionPoint - 1, 3, result);
@@ -63,8 +59,8 @@
      handleDivision(finalArr);
    }
 
-   // MAKE_A_NUMBERS
-   const makeANumbers = function (finalArr) {
+   // 4. MAKE_CLEAN_DATA CREATE A CALCULABLE ROW OF SIGNS, MOSTLY IT'S HANDLIG WITH MINUSES - SANITIZED DATA
+   const makeCleanData = function (finalArr) {
      // OPERATORY NA POCZĄTKU
      let test1 = (finalArr[0])[0]; // if first string is an operator
      if (operators.includes(test1)) { // first string is an operator
@@ -95,15 +91,14 @@
        }
      }
 
-     // FINAL
      let txtToShowInH4 = finalArr.toString().replace(/,/g, '');
      showCounting.textContent = txtToShowInH4; // display calculations
-     console.log('3. makeANumbers finalArr ' + finalArr);
+     console.log('3. makeCleanData finalArr ' + finalArr);
      handleMultiplication(finalArr);
    }
 
-   // MAKE_A_COUNT CREATE AN ARRAY WITH STRINGS NUMBER/OPERATOR
-   const makeACount = function (toCountArray) {
+   // 3. MAKE_A_STRINGS CREATE AN ARRAY OF STRINGS NUMBER/OPERATOR
+   const makeAStrings = function (toCountArray) {
      finalArr = []; // array
      while (toCountArray.includes('x')) {
        let terminus = toCountArray.indexOf('x'); //  find position of the nearest x
@@ -137,11 +132,11 @@
        showCounting.textContent = 'none, not enough data to calculate';
        return;
      }
-     console.log('2. makeACount finalArr ' + finalArr);
-     makeANumbers(finalArr);
+     console.log('2. makeAStrings finalArr ' + finalArr);
+     makeCleanData(finalArr);
    }
 
-   // COUNT_THIS HANDLE INPUT
+   // 2. COUNT_THIS HANDLE INPUT
    const countThis = function () {
      let toCount = resultField.textContent;
      if (toCount) {
@@ -183,7 +178,7 @@
 
        console.log('1. toCountArray ' + toCountArray);
        if (toCountArray.length > 0) {
-         makeACount(toCountArray); // input
+         makeAStrings(toCountArray); // input
        } else {
          console.log('nothing left!');
          showCounting.textContent = 'none, nothing left!';
@@ -194,16 +189,28 @@
      }
    }
 
+   // 1. INPUT
+   const addASign = function () {
+     if (flag) {
+       resultField.textContent = "";
+       flag = false;
+     }
+     resultField.textContent += this.textContent;
+   }
+
+   // CLEAR
    const removeLast = () => {
      let toCount = resultField.textContent;
      toCount = toCount.slice(0, -1);
      resultField.textContent = toCount;
    }
 
+   // CLEAR ALL
    const removeAll = () => {
      resultField.textContent = "";
    }
 
+   // LISTENERS
    panelBtn.forEach(function (button) {
      button.addEventListener("click", addASign);
    });

@@ -59,7 +59,7 @@
      handleDivision(finalArr);
    }
 
-   // 4. MAKE_CLEAN_DATA CREATE A CALCULABLE ROW OF SIGNS, MOSTLY IT'S HANDLIG WITH MINUSES - SANITIZED DATA
+   // 4. MAKE_CLEAN_DATA CREATE A CALCULABLE ROW OF SIGNS, MOSTLY IT'S HANDLING WITH MINUSES - SANITIZE DATA
    const makeCleanData = function (finalArr) {
      // OPERATORY NA POCZĄTKU
      let test1 = (finalArr[0])[0]; // if first string is an operator
